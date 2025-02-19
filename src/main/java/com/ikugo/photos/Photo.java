@@ -6,26 +6,20 @@ import jakarta.validation.constraints.NotEmpty;
 import java.util.UUID;
 
 public class Photo {
-//    @org.hibernate.validator.constraints.UUID
-    private UUID id;
     @NotEmpty
     private String fileName;
+    @NotEmpty
+    private String fileType;
     @NotEmpty @JsonIgnore
     private byte[] fileContent;
 
-    public Photo(UUID id, String fileName, byte[] fileContent) {
-        this.id = id;
+    public Photo(String fileName, String fileType, byte[] fileContent) {
         this.fileName = fileName;
+        this.fileType = fileType;
         this.fileContent = fileContent;
     }
 
     // getters & setters
-    public UUID getId() {
-        return id;
-    }
-    public void setId(UUID id) {
-        this.id = id;
-    }
     public String getFileName() {
         return fileName;
     }
@@ -37,5 +31,11 @@ public class Photo {
     }
     public void setFileContent(byte[] fileContent) {
         this.fileContent = fileContent;
+    }
+    public String getFileType() {
+        return fileType;
+    }
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
     }
 }

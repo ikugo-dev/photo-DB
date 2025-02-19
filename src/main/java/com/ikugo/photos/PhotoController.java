@@ -1,39 +1,31 @@
 package com.ikugo.photos;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.Console;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 @RestController
 public class PhotoController {
-    private static final Logger log = LoggerFactory.getLogger(PhotoController.class);
-    private Map<UUID, Photo> photoDB = new HashMap<>();
-
-    {
-        photoDB.put(UUID.randomUUID(), new Photo(UUID.randomUUID(), "photo1.jpg", new byte[0]));
-        photoDB.put(UUID.randomUUID(), new Photo(UUID.randomUUID(), "photo2.jpg", new byte[0]));
-        photoDB.put(UUID.randomUUID(), new Photo(UUID.randomUUID(), "photo3.jpg", new byte[0]));
-        photoDB.put(UUID.randomUUID(), new Photo(UUID.randomUUID(), "photo4.jpg", new byte[0]));
+    private final PhotoService photoService;
+    public PhotoController(PhotoService photoService) {
+        this.photoService = photoService;
     }
 
     @GetMapping("/photos")
     public Map<UUID, Photo> getPhotoDB() {
-        return photoDB;
+        return photoService.getData();
     }
     @GetMapping("/photos/{id}")
     public Photo getPhoto(@PathVariable UUID id) {
-        Photo photo = photoDB.get(id);
+        Photo photo = photoService.getPhoto(id);
         if (photo == null) {
             throw new ResponseStatusException(
-                    org.springframework.http.HttpStatus.NOT_FOUND,
+                    HttpStatus.NOT_FOUND,
                     "Photo with id " + id + " not found.");
         }
         return photo;
@@ -41,19 +33,19 @@ public class PhotoController {
 
     @PostMapping("/photos")
     public void addPhoto(@RequestPart("payload") MultipartFile file) throws IOException {
-        UUID photoID = UUID.randomUUID();
         String fileName = file.getOriginalFilename();
+        String fileType = file.getContentType();
         byte[] fileContent = file.getBytes();
-        Photo photo = new Photo(photoID, fileName, fileContent);
-        photoDB.put(photoID, photo);
+        Photo photo = new Photo(fileName, fileType, fileContent);
+        photoService.addPhoto(photo);
     }
 
     @DeleteMapping("/photos/{id}")
     public void deletePhoto(@PathVariable UUID id) {
-        Photo photo = photoDB.remove(id);
+        Photo photo = photoService.deletePhoto(id);
         if (photo == null) {
             throw new ResponseStatusException(
-                    org.springframework.http.HttpStatus.NOT_FOUND,
+                    HttpStatus.NOT_FOUND,
                     "Photo with id " + id + " not found.");
         }
     }
