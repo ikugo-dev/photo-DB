@@ -1,36 +1,40 @@
 package com.ikugo.photos.service;
 
 import com.ikugo.photos.model.Photo;
+import com.ikugo.photos.repository.PhotoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
 import java.util.UUID;
 
 @Service @Component
 public class PhotoService {
-    private Map<UUID, Photo> database = new HashMap<>();
-    {
-        database.put(UUID.randomUUID(), new Photo("photo1.jpg", "image/jpeg", new byte[0]));
-        database.put(UUID.randomUUID(), new Photo("photo2.jpg", "image/jpeg", new byte[0]));
-        database.put(UUID.randomUUID(), new Photo("photo3.jpg", "image/jpeg", new byte[0]));
-        database.put(UUID.randomUUID(), new Photo("photo4.jpg", "image/jpeg", new byte[0]));
-    }
+    private final PhotoRepository database;
 
-    public Map<UUID, Photo> getData() {
+    @Autowired
+    public PhotoService(PhotoRepository database) {
+        this.database = database;
+    }
+    public PhotoRepository getData() {
         return database;
     }
-    public Photo[] getPhotos() {
-        return database.values().toArray(new Photo[0]);
+    public Iterable<Photo> getPhotos() {
+        return database.findAll();
     }
     public Photo getPhoto(UUID id) {
-        return database.get(id);
+        return database.findById(id).orElse(null);
     }
-    public void addPhoto(Photo photo) {
-        database.put(UUID.randomUUID(), photo);
+    public void addPhoto(MultipartFile file) throws IOException {
+        String fileName = file.getOriginalFilename();
+        String fileType = file.getContentType();
+        byte[] fileContent = file.getBytes();
+        Photo photo = new Photo(fileName, fileType, fileContent);
+        database.save(photo);
     }
-    public Photo deletePhoto(UUID id) {
-        return database.remove(id);
+    public void deletePhoto(UUID id) {
+        database.deleteById(id);
     }
 }
