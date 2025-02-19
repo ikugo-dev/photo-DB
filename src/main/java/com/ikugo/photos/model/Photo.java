@@ -1,9 +1,7 @@
-package com.ikugo.photos;
+package com.ikugo.photos.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotEmpty;
-
-import java.util.UUID;
 
 public class Photo {
     @NotEmpty

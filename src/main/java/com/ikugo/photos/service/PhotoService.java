@@ -1,5 +1,6 @@
-package com.ikugo.photos;
+package com.ikugo.photos.service;
 
+import com.ikugo.photos.model.Photo;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 

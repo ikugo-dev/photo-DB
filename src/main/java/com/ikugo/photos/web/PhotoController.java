@@ -1,5 +1,7 @@
-package com.ikugo.photos;
+package com.ikugo.photos.web;
 
+import com.ikugo.photos.model.Photo;
+import com.ikugo.photos.service.PhotoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
