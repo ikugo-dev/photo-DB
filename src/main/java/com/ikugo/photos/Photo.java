@@ -1,5 +1,6 @@
 package com.ikugo.photos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.util.UUID;
@@ -9,7 +10,7 @@ public class Photo {
     private UUID id;
     @NotEmpty
     private String fileName;
-    @NotEmpty
+    @NotEmpty @JsonIgnore
     private byte[] fileContent;
 
     public Photo(UUID id, String fileName, byte[] fileContent) {

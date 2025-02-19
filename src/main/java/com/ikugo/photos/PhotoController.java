@@ -1,9 +1,12 @@
 package com.ikugo.photos;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.Console;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +14,7 @@ import java.util.UUID;
 
 @RestController
 public class PhotoController {
+    private static final Logger log = LoggerFactory.getLogger(PhotoController.class);
     private Map<UUID, Photo> photoDB = new HashMap<>();
 
     {
@@ -35,7 +39,7 @@ public class PhotoController {
         return photo;
     }
 
-    @PostMapping("/photos/")
+    @PostMapping("/photos")
     public void addPhoto(@RequestPart("payload") MultipartFile file) throws IOException {
         UUID photoID = UUID.randomUUID();
         String fileName = file.getOriginalFilename();
