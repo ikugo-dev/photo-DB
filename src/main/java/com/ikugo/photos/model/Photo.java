@@ -3,7 +3,6 @@ package com.ikugo.photos.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import org.hibernate.annotations.GenericGenerator;
 import java.util.UUID;
 
 @Entity
@@ -11,7 +10,6 @@ import java.util.UUID;
 public class Photo {
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id", updatable = false, nullable = false, columnDefinition = "BINARY(16)")
     private UUID id;
     @NotEmpty
