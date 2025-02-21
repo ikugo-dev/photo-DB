@@ -17,7 +17,7 @@ To get started with this project, clone the repository and execute the maven bin
 ```bash
 git clone https://github.com/ikugo-dev/photo-DB.git
 cd photo-DB
-./mvn spring-boot:run.
+./mvnw spring-boot:run.
 ```
 
 
