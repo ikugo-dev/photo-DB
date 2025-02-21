@@ -16,7 +16,7 @@ This project uses the H2 database and was made to prove that Java is superior to
 To get started with this project, clone the repository and execute the maven binary:
 ```bash
 git clone https://github.com/ikugo-dev/photo-DB.git
-cd photo-DB
+cd photo-db
 ./mvnw spring-boot:run.
 ```
 
