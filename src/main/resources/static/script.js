@@ -27,7 +27,7 @@ function renderFile(image) {
     file.appendChild(img);
 
     function createButton(className, icon, onClick) {
-        const button= document.createElement("button");
+        const button = document.createElement("button");
         button.className = className;
         const buttonIcon = document.createElement("i");
         buttonIcon.className = `fa-solid ${icon}`;
@@ -69,4 +69,4 @@ document.getElementById("upload-button").addEventListener("click", async () => {
         alert("Failed to upload image.");
     }
 });
-fetchFiles().then(() => alert("yay"));
+await fetchFiles();
